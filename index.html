@@ -12,6 +12,29 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             user-select: none;
         }
+        #pre-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #1a1a2e, #16213e, #0f3460);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        #pre-loader h2 {
+            font-size: 4rem;
+            font-weight: bold;
+            color: rgb(216, 199, 225);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeInOut 2s infinite;
+        }
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
 
         body {
             background:linear-gradient(to right, #112458, #362753, #0f1c27);
@@ -114,8 +137,8 @@
         }
 
         /* Jigsaw region colors for 6x6 */
-        .cell.region-0 { background-color: rgba(50, 54, 57, 0.3); }
-        .cell.region-1 { background-color: rgba(90, 23, 23, 0.3); }
+        .cell.region-0 { background-color: rgba(122, 3, 92, 0.3); }
+        .cell.region-1 { background-color: rgba(33, 7, 7, 0.3); }
         .cell.region-2 { background-color: rgba(60, 95, 5, 0.3); }
         .cell.region-3 { background-color: rgba(212, 31, 11, 0.3); }
         .cell.region-4 { background-color: rgba(112, 10, 92, 0.3); }
@@ -374,16 +397,14 @@
 <body>
     <!-- Anti-cheat protection overlay -->
     <div id="anti-cheat" class="anti-cheat">
-        <div>
-            <h2><i class="fas fa-shield-alt"></i> Incognito Investigation</h2>
-            <p>Sudoku</p>
-            <p>Loading puzzle...</p>
+        <div id="pre-loader">
+            <h2 >🕵🏻 Incognito Investigation</h2>
         </div>
     </div>
 
     <div class="container">
         <header>
-            <h1><i class="fas fa-puzzle-piece"></i> 6x6 Jigsaw Sudoku Competition</h1>
+            <h1><i class="fas fa-puzzle-piece"></i> Jigsaw Sudoku </h1>
             <p class="subtitle">Fill the grid so that every row, column, and irregular region contains numbers 1-6</p>
         </header>
 
@@ -416,13 +437,9 @@
             <h3><i class="fas fa-info-circle"></i> Competition Rules</h3>
             <ul>
                 <li>Fill the 6x6 grid with numbers 1-6</li>
-                <li>Each row must contain all numbers 1-6 without repetition</li>
-                <li>Each column must contain all numbers 1-6 without repetition</li>
-                <li>Each colored irregular region (jigsaw shape) must contain all numbers 1-6 without repetition</li>
                 <li>Use the number buttons or your keyboard (1-6) to fill cells</li>
                 <li>Use "Check Solution" to verify if your solution is correct</li>
-                <li>Red numbers are pre-filled and cannot be changed</li>
-                <li>Black numbers are your entries</li>
+                <li>You are not allowed to use any solver or AI; doing so will result in disqualification</li>
             </ul>
         </div>
 
@@ -862,4 +879,3 @@
     </script>
 </body>
 </html>
-
