@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5x5 Jigsaw Sudoku Competition</title>
+    <title>6x6 Jigsaw Sudoku Competition</title>
     <style>
         * {
             margin: 0;
@@ -72,10 +72,10 @@
 
         #sudoku-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            grid-template-rows: repeat(5, 1fr);
-            width: 450px;
-            height: 450px;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(6, 1fr);
+            width: 480px;
+            height: 480px;
             border: 3px solid #3498db;
             border-radius: 5px;
             overflow: hidden;
@@ -87,7 +87,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.2s;
@@ -113,12 +113,13 @@
             color: #ff7675;
         }
 
-        /* Jigsaw region colors for 5x5 */
+        /* Jigsaw region colors for 6x6 */
         .cell.region-0 { background-color: rgba(50, 54, 57, 0.3); }
         .cell.region-1 { background-color: rgba(90, 23, 23, 0.3); }
         .cell.region-2 { background-color: rgba(60, 95, 5, 0.3); }
         .cell.region-3 { background-color: rgba(212, 31, 11, 0.3); }
         .cell.region-4 { background-color: rgba(112, 10, 92, 0.3); }
+        .cell.region-5 { background-color: rgba(20, 100, 150, 0.3); }
 
         .controls {
             display: flex;
@@ -148,13 +149,13 @@
         }
 
         .num-btn {
-            width: 60px;
-            height: 60px;
+            width: 55px;
+            height: 55px;
             border: none;
             border-radius: 50%;
             background: linear-gradient(145deg, #3498db, #2980b9);
             color: white;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: bold;
             cursor: pointer;
             display: flex;
@@ -349,7 +350,7 @@
             }
             
             .cell {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .action-buttons {
@@ -363,9 +364,9 @@
             }
             
             .num-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
             }
         }
     </style>
@@ -382,8 +383,8 @@
 
     <div class="container">
         <header>
-            <h1><i class="fas fa-puzzle-piece"></i> 5x5 Jigsaw Sudoku Competition</h1>
-            <p class="subtitle">Fill the grid so that every row, column, and irregular region contains numbers 1-5</p>
+            <h1><i class="fas fa-puzzle-piece"></i> 6x6 Jigsaw Sudoku Competition</h1>
+            <p class="subtitle">Fill the grid so that every row, column, and irregular region contains numbers 1-6</p>
         </header>
 
         <div class="game-area">
@@ -400,6 +401,7 @@
                         <button class="num-btn" data-number="3">3</button>
                         <button class="num-btn" data-number="4">4</button>
                         <button class="num-btn" data-number="5">5</button>
+                        <button class="num-btn" data-number="6">6</button>
                     </div>
                 </div>
                 
@@ -413,18 +415,19 @@
         <div class="instructions">
             <h3><i class="fas fa-info-circle"></i> Competition Rules</h3>
             <ul>
-                <li>Fill the 5x5 grid with numbers 1-5</li>
-                <li>Each row must contain all numbers 1-5 without repetition</li>
-                <li>Each column must contain all numbers 1-5 without repetition</li>
-                <li>Each colored irregular region (jigsaw shape) must contain all numbers 1-5 without repetition</li>
-                <li>Use the number buttons or your keyboard (1-5) to fill cells</li>
+                <li>Fill the 6x6 grid with numbers 1-6</li>
+                <li>Each row must contain all numbers 1-6 without repetition</li>
+                <li>Each column must contain all numbers 1-6 without repetition</li>
+                <li>Each colored irregular region (jigsaw shape) must contain all numbers 1-6 without repetition</li>
+                <li>Use the number buttons or your keyboard (1-6) to fill cells</li>
                 <li>Use "Check Solution" to verify if your solution is correct</li>
                 <li>Red numbers are pre-filled and cannot be changed</li>
+                <li>Black numbers are your entries</li>
             </ul>
         </div>
 
         <footer>
-            <p>Incognito Investigation | Obsidiverse Persuit</p>
+            <p>Incognito Investigation | Obsidiverse Pursuit</p>
         </footer>
     </div>
 
@@ -481,55 +484,61 @@
         let selectedNumber = null;
         let gameCompleted = false;
         
-        // 5x5 Jigsaw regions - custom irregular shapes
+        // 6x6 Jigsaw regions - custom irregular shapes (6 regions for 6x6)
         const jigsawRegions = [
-            [0, 1, 1, 1, 1],
-            [0, 0, 2, 2, 1],
-            [0, 3, 2, 2, 4],
-            [0, 3, 3, 2, 4],
-            [3, 3, 4, 4, 4]
+            [0, 0, 1, 1, 1, 1],
+            [0, 0, 2, 2, 1, 1],
+            [0, 2, 2, 1, 3, 4],
+            [0, 2, 3, 3, 3, 4],
+            [5, 5, 3, 3, 4, 4],
+            [5, 5, 5, 5, 4, 4]
         ];
         
-        // Pre-defined 5x5 competition puzzle (medium difficulty)
-        // Generated server-side in real scenario
+        // Sample 6x6 competition puzzle (you can edit this)
         const competitionPuzzle = [
-            [0, 0, 3, 0, 0],
-            [2, 0, 0, 3, 0],
-            [0, 0, 0, 0, 0],
-            [0, 5, 0, 0, 0],
-            [0, 0, 0, 0, 2]
+            [0, 0, 3, 0, 0, 0],
+            [5, 0, 0, 3, 0, 0],
+            [0, 0, 2, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 5, 0, 0, 6, 0],
+            [0, 0, 0, 0, 0, 0]
+        ];
+        
+        // Sample 6x6 solution (you can edit this)
+        const competitionSolution = [
+            [1, 2, 3, 4, 5, 6],
+            [5, 6, 4, 3, 1, 2],
+            [4, 1, 2, 6, 3, 5],
+            [3, 5, 6, 2, 4, 1],
+            [2, 4, 5, 1, 6, 3],
+            [6, 3, 1, 5, 2, 4]
         ];
         
         // ENCRYPTED SOLUTION - Not visible in source code
-        // Using multiple obfuscation techniques
         const encryptedSolution = {
-            // Base64 encoded then reversed
-            a: "NVQyMDE1Mw==", // Solution encoded
-            b: [53, 52, 51, 50, 49], // ASCII codes for numbers 1-5 in reverse
-            c: function() {
-                // Obfuscated decoding function
-                const s = atob(this.a).split('').reverse().join('');
-                const grid = [];
-                for(let i = 0; i < 5; i++) {
-                    grid[i] = s.slice(i*5, i*5+5).split('').map(Number);
+            // Obfuscated solution storage
+            a: "NDYzNTEyMjE1MzQ2NTMyNDE2NTQ2MzI2MTI0NTMzNDIxNjU=",
+            decode: function() {
+                try {
+                    const decoded = atob(this.a);
+                    const numbers = decoded.split('').map(c => c.charCodeAt(0) - 48);
+                    const solution = [];
+                    for(let i = 0; i < 6; i++) {
+                        solution[i] = numbers.slice(i*6, i*6+6);
+                    }
+                    return solution;
+                } catch(e) {
+                    return competitionSolution;
                 }
-                return grid;
             }
         };
         
         // Get solution (decrypted at runtime)
         function getSolution() {
             try {
-                return encryptedSolution.c();
+                return encryptedSolution.decode();
             } catch(e) {
-                // Fallback solution (harder to find in source)
-                return [
-                    [4, 5, 2, 1, 3],
-                    [3, 2, 1, 5, 4],
-                    [5, 3, 4, 2, 1],
-                    [2, 1, 5, 3, 4],
-                    [1, 4, 3, 4, 2]
-                ];
+                return competitionSolution;
             }
         }
         
@@ -562,20 +571,20 @@
         function isValidMove(row, col, num) {
             if (num === 0) return true;
             
-            // Check row
-            for (let x = 0; x < 5; x++) {
+            // Check row (6 cells for 6x6)
+            for (let x = 0; x < 6; x++) {
                 if (grid[row][x] === num && x !== col) return false;
             }
             
-            // Check column
-            for (let x = 0; x < 5; x++) {
+            // Check column (6 cells for 6x6)
+            for (let x = 0; x < 6; x++) {
                 if (grid[x][col] === num && x !== row) return false;
             }
             
             // Check jigsaw region
             const region = jigsawRegions[row][col];
-            for (let i = 0; i < 5; i++) {
-                for (let j = 0; j < 5; j++) {
+            for (let i = 0; i < 6; i++) {
+                for (let j = 0; j < 6; j++) {
                     if (jigsawRegions[i][j] === region && grid[i][j] === num && !(i === row && j === col)) {
                         return false;
                     }
@@ -589,8 +598,8 @@
         function renderGrid() {
             sudokuGrid.innerHTML = '';
             
-            for (let row = 0; row < 5; row++) {
-                for (let col = 0; col < 5; col++) {
+            for (let row = 0; row < 6; row++) {
+                for (let col = 0; col < 6; col++) {
                     const cellValue = grid[row][col];
                     const cell = document.createElement('div');
                     cell.className = `cell region-${jigsawRegions[row][col]}`;
@@ -661,7 +670,7 @@
             // Check if the puzzle is complete
             if (isPuzzleComplete()) {
                 gameCompleted = true;
-                showMessage('Congratulations!', 'You solved the 5x5 Jigsaw Sudoku puzzle!');
+                showMessage('Congratulations!', 'You solved the 6x6 Jigsaw Sudoku puzzle!');
             }
             
             renderGrid();
@@ -669,8 +678,8 @@
         
         // Check if the puzzle is complete
         function isPuzzleComplete() {
-            for (let row = 0; row < 5; row++) {
-                for (let col = 0; col < 5; col++) {
+            for (let row = 0; row < 6; row++) {
+                for (let col = 0; col < 6; col++) {
                     // If any cell is empty or has an error
                     if (grid[row][col] === 0 || !isValidMove(row, col, grid[row][col])) {
                         return false;
@@ -688,8 +697,8 @@
             const solution = getSolution();
             let correct = true;
             
-            for (let row = 0; row < 5; row++) {
-                for (let col = 0; col < 5; col++) {
+            for (let row = 0; row < 6; row++) {
+                for (let col = 0; col < 6; col++) {
                     if (grid[row][col] !== solution[row][col]) {
                         correct = false;
                         break;
@@ -705,8 +714,8 @@
                 let emptyCells = 0;
                 let errors = 0;
                 
-                for (let row = 0; row < 5; row++) {
-                    for (let col = 0; col < 5; col++) {
+                for (let row = 0; row < 6; row++) {
+                    for (let col = 0; col < 6; col++) {
                         if (grid[row][col] === 0) emptyCells++;
                         if (grid[row][col] !== 0 && !isValidMove(row, col, grid[row][col])) errors++;
                     }
@@ -772,8 +781,8 @@
         document.addEventListener('keydown', (e) => {
             if (gameCompleted) return;
             
-            // Number keys 1-5
-            if (e.key >= '1' && e.key <= '5') {
+            // Number keys 1-6
+            if (e.key >= '1' && e.key <= '6') {
                 const num = parseInt(e.key);
                 
                 // Highlight the corresponding button
@@ -813,9 +822,9 @@
                         }
                         break;
                     case 'ArrowDown':
-                        row = Math.min(4, row + 1);
+                        row = Math.min(5, row + 1);
                         // Skip prefilled cells
-                        while (row < 4 && competitionPuzzle[row][col] !== 0) {
+                        while (row < 5 && competitionPuzzle[row][col] !== 0) {
                             row++;
                         }
                         break;
@@ -827,9 +836,9 @@
                         }
                         break;
                     case 'ArrowRight':
-                        col = Math.min(4, col + 1);
+                        col = Math.min(5, col + 1);
                         // Skip prefilled cells
-                        while (col < 4 && competitionPuzzle[row][col] !== 0) {
+                        while (col < 5 && competitionPuzzle[row][col] !== 0) {
                             col++;
                         }
                         break;
