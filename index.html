@@ -514,10 +514,10 @@
         // Sample 6x6 competition puzzle (you can edit this)
         const competitionPuzzle = [
             [0, 0, 3, 0, 0, 0],
-            [5, 0, 0, 3, 0, 0],
+            [5, 0, 0, 0, 0, 2],
             [0, 0, 2, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0],
-            [0, 5, 0, 0, 6, 0],
+            [0, 5, 0, 0, 0, 0],
+            [0, 0, 0, 0, 6, 0],
             [0, 0, 0, 0, 0, 0]
         ];
         
@@ -687,7 +687,7 @@
             // Check if the puzzle is complete
             if (isPuzzleComplete()) {
                 gameCompleted = true;
-                showMessage('Congratulations!', 'You solved the 6x6 Jigsaw Sudoku puzzle!');
+                showMessage('Congratulations!', 'CODE');
             }
             
             renderGrid();
@@ -726,7 +726,7 @@
             
             if (correct) {
                 gameCompleted = true;
-                showMessage('Perfect Solution!', 'Your solution is 100% correct! Well done!');
+                showMessage('Perfect Solution!', 'CODE');
             } else {
                 let emptyCells = 0;
                 let errors = 0;
@@ -879,5 +879,3 @@
     </script>
 </body>
 </html>
-
-
